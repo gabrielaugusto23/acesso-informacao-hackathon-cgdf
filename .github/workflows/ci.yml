@@ -9,12 +9,10 @@ on:
 jobs:
   build-lint-test:
     runs-on: ubuntu-latest
-    
-    environment: APP_PORT
-    
+    environment: "Configure APP_PORT"
     env:
       APP_PORT: ${{ vars.APP_PORT }}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,29 +23,31 @@ jobs:
       - name: Build and start containers
         run: |
           echo "Starting containers in detached mode..."
+          
           docker compose -f docker-compose_prod.yml up --build -d
-          docker compose ps
+                   
+          docker compose -f docker-compose_prod.yml ps
 
       - name: Wait for containers to be healthy
         run: |
           echo "Waiting for containers to become healthy..."
           sleep 10
-          docker compose ps
+          docker compose -f docker-compose_prod.yml ps
 
       - name: Run style check (Black)
         run: |
           echo "Running Black for code style check..."
-          docker compose exec -T cgdf_api black --check .
+          docker compose -f docker-compose_prod.yml exec -T cgdf_api black --check .
 
       - name: Run linter (Ruff)
         run: |
           echo "🔍 Running Ruff linter..."
-          docker compose exec -T cgdf_api ruff check .
+          docker compose -f docker-compose_prod.yml exec -T cgdf_api ruff check .
 
       - name: Run unit tests (pytest)
         run: |
           echo "Running unit tests with pytest..."
-          docker compose exec -T cgdf_api pytest -v --disable-warnings
+          docker compose -f docker-compose_prod.yml exec -T cgdf_api pytest -v --disable-warnings
 
       - name: Shut down containers
         if: always()
