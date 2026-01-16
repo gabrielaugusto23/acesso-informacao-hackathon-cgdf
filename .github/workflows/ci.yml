@@ -23,9 +23,7 @@ jobs:
       - name: Build and start containers
         run: |
           echo "Starting containers in detached mode..."
-          
           docker compose -f docker-compose_prod.yml up --build -d
-                   
           docker compose -f docker-compose_prod.yml ps
 
       - name: Wait for containers to be healthy
@@ -47,7 +45,7 @@ jobs:
       - name: Run unit tests (pytest)
         run: |
           echo "Running unit tests with pytest..."
-          docker compose -f docker-compose_prod.yml exec -T cgdf_api pytest -v --disable-warnings
+          docker compose -f docker-compose_prod.yml exec -T cgdf_api python -m pytest -v --disable-warnings
 
       - name: Shut down containers
         if: always()
