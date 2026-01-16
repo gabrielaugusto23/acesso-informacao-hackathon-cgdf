@@ -1,0 +1,14 @@
+services:
+  cgdf_api:
+    build:
+      context: ./app
+      dockerfile: ../infra/Dockerfile_dev
+      additional_contexts:
+        requirements: .
+    container_name: cgdf_dev
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    environment:
+      - APP_PORT=${APP_PORT}
+    volumes:
+      - ./app:/app

@@ -1,0 +1,51 @@
+name: CI - Build, Lint and Test
+
+on:
+  push:
+    branches: [prod]
+  pull_request:
+    branches: [prod]
+
+jobs:
+  build-lint-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and start containers
+        run: |
+          echo "Starting containers in detached mode..."
+          docker compose -f docker-compose_prod.yml up --build -d
+          docker compose ps
+
+      - name: Wait for containers to be healthy
+        run: |
+          echo "Waiting for containers to become healthy..."
+          sleep 10
+          docker compose ps
+
+      - name: Run style check (Black)
+        run: |
+          echo "Running Black for code style check..."
+          docker compose exec -T cgdf_api black --check .
+
+      - name: Run linter (Ruff)
+        run: |
+          echo "🔍 Running Ruff linter..."
+          docker compose exec -T cgdf_api ruff check .
+
+      - name: Run unit tests (pytest)
+        run: |
+          echo "Running unit tests with pytest..."
+          docker compose exec -T cgdf_api pytest -v --disable-warnings
+
+      - name: Shut down containers
+        if: always()
+        run: |
+          echo "Shutting down containers..."
+          docker compose -f docker-compose_prod.yml down
