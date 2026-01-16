@@ -24,7 +24,9 @@ class Status(BaseModel):
 
 
 @app.post(
-    "/validate", response_model=Status, summary="Valida uma mensagem enviada pelo usuário"
+    "/validate",
+    response_model=Status,
+    summary="Valida uma mensagem enviada pelo usuário",
 )
 def validate_message(data: Message):
     """
