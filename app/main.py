@@ -2,6 +2,8 @@ from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 
+from app.chain.ChainOfResponsibility import PersonalDataChain
+
 app = FastAPI(
     title="Acesso à Informação - CGDF",
     description=(
@@ -32,9 +34,18 @@ def validate_message(data: Message):
     - **válido:** quando a mensagem está correta.
     - **inválido:** quando a mensagem apresenta algum problema.
     """
-    if data.message.lower() == "ok":
+
+    # if data.message.lower() == "ok":
+    #     return Status(status="válido")
+    # return Status(status="inválido")
+
+    chain = PersonalDataChain.build()
+
+    if chain.handle(data.message.lower()):
         return Status(status="válido")
-    return Status(status="inválido")
+    else:
+        Status(status="inválido")
+        return None
 
 
 @app.get("/", include_in_schema=False)
