@@ -1,8 +1,7 @@
+from DataValidationPipeline import DataValidationPipeline
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
-
-from app.chain.ChainOfResponsibility import PersonalDataChain
 
 app = FastAPI(
     title="Acesso à Informação - CGDF",
@@ -39,7 +38,7 @@ def validate_message(data: Message):
     #     return Status(status="válido")
     # return Status(status="inválido")
 
-    chain = PersonalDataChain.build()
+    chain = DataValidationPipeline.build()
 
     if chain.handle(data.message.lower()):
         return Status(status="válido")

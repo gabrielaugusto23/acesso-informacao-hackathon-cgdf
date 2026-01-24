@@ -1,10 +1,10 @@
-from app.handlers.PhoneHandler import PhoneHandler
+from validators.PhoneValidator import PhoneValidator
 
 
-class PersonalDataChain:
+class DataValidationPipeline:
     @staticmethod
     def build():
-        phone = PhoneHandler()
+        phone = PhoneValidator()
         return phone
 
     # @staticmethod

@@ -1,9 +1,9 @@
 import re
 
-from IHandler import IHandler
+from validators.IValidator import IValidator
 
 
-class PhoneHandler(IHandler):
+class PhoneValidator(IValidator):
     PHONE_REGEX = re.compile(r"(\(?\d{2}\)?\s?)?(\d{4,5})[-\s]?(\d{4})")
 
     def handle(self, text: str):
@@ -14,7 +14,7 @@ class PhoneHandler(IHandler):
                 "tipo": "DADO_PESSOAL",
                 "campo": "telefone",
                 "valor_detectado": match.group(),
-                "handlers": "PhoneHandler",
+                "validators": "PhoneValidator",
             }
 
         if self.__next_handler:

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class IHandler(ABC):
+class IValidator(ABC):
     def __init__(self, next_handler=None):
         self.__next_handler = next_handler
 
