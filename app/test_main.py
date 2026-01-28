@@ -31,3 +31,15 @@ def test_validate_message_invalid():
     response = client.post("/validate", json={"message": "anything else"})
     assert response.status_code == 200
     assert response.json() == {"status": "inválido"}
+
+def test_validate_with_cpf():
+    # This should now return "inválido" because the CPFValidator will detect the PII
+    response = client.post("/validate", json={"message": "Meu CPF é 123.456.789-00"})
+    assert response.status_code == 200
+    assert response.json() == {"status": "inválido"}
+
+def test_validate_clean_text():
+    # This remains "válido" as no PII is present
+    response = client.post("/validate", json={"message": "Gostaria de saber o orçamento da saúde."})
+    assert response.status_code == 200
+    assert response.json() == {"status": "válido"}
