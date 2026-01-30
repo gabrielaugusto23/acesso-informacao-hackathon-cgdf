@@ -57,8 +57,8 @@ jobs:
       - name: Run unit tests (pytest)
         run: |
           echo "Running unit tests with pytest..."
-          # Usamos 'run --rm' para garantir um ambiente isolado e limpo nos testes
-          docker compose -f docker-compose_prod.yml run --rm cgdf_api python -m pytest -v --disable-warnings
+          # Point pytest to the specific directories where your tests are located
+          docker compose -f docker-compose_prod.yml run --rm cgdf_api python -m pytest app/test_main.py tests/test_validade.py -v --disable-warnings
 
       - name: Shut down containers
         if: always()
