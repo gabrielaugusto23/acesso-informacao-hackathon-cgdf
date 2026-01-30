@@ -1,7 +1,10 @@
 import re
+
 from validate_docbr import CPF
+
 from app.validators.IValidator import IValidator
 from app.validators.ValidationResult import ValidationResult
+
 
 class CPFValidator(IValidator):
     def __init__(self, next_handler=None):

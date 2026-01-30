@@ -1,7 +1,8 @@
-from app.DataValidationPipeline import DataValidationPipeline
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
+
+from app.DataValidationPipeline import DataValidationPipeline
 
 app = FastAPI(
     title="Acesso à Informação - CGDF",

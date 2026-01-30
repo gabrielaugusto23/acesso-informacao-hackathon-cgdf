@@ -16,7 +16,10 @@ def test_validate_with_cpf():
         assert response.json()["status"] == "Inválido"
         assert response.json()["validators_status"] == "CPFValidator"
 
+
 def test_validate_clean_text():
-    response = client.post("/validate", json={"message": "Quais são os gastos com educação?"})
+    response = client.post(
+        "/validate", json={"message": "Quais são os gastos com educação?"}
+    )
     assert response.status_code == 200
     assert response.json()["status"] == "Válido"
