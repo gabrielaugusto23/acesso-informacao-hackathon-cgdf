@@ -17,4 +17,4 @@ clear_dev:
 	docker compose -f docker-compose_dev.yml down -v
 	docker compose -f docker-compose_dev.yml down
 	docker compose -f docker-compose_dev.yml build --no-cache
-	docker compose -f docker-compose_dev.yml  up
+	docker compose -f docker-compose_dev.yml up

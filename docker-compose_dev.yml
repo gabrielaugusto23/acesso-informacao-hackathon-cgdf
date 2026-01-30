@@ -1,9 +1,9 @@
 services:
   cgdf_api:
+    container_name: cgdf_dev
     build:
       context: .
-      dockerfile: infra/Dockerfile_dev
-    container_name: cgdf_dev
+      dockerfile: Dockerfile_dev
     ports:
       - "${APP_PORT:-8000}:${APP_PORT:-8000}"
     environment:

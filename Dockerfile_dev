@@ -2,11 +2,10 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copy from the root of the build context
-COPY requirements.txt . 
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app
+COPY app/ .
 
 # Ensure PYTHONPATH is set so 'app' is seen as a module
 ENV PYTHONPATH=/app
