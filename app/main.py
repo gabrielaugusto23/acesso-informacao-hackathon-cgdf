@@ -1,3 +1,4 @@
+from DataValidationPipeline import DataValidationPipeline
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
@@ -24,6 +25,8 @@ class Message(BaseModel):
 
 class Status(BaseModel):
     status: str
+    validators_status: str
+    private_data: str
 
 @app.post(
     "/validate",
