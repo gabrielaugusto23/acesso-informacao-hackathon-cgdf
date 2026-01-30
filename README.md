@@ -32,6 +32,17 @@ Projeto desenvolvido para o **1º Hackathon em Controle Social - Desafio Partici
 
 ---
 
+## Swagger
+
+![img.png](img.png)
+
+> Para testar a API, acesse o Swagger e informe a mensagem no formato JSON.
+Em seguida, clique em “Execute” para visualizar o resultado da validação.
+>
+> A API também pode ser consumida por outras ferramentas de sua preferência, como Postman ou Insomnia.
+
+---
+
 ## Estrutura do Projeto
 
 `````txt
