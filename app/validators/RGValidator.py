@@ -1,4 +1,5 @@
 import re
+
 from validators.IValidator import IValidator
 from validators.ValidationResult import ValidationResult
 
