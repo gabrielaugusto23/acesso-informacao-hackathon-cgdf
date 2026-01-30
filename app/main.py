@@ -1,3 +1,4 @@
+from DataValidationPipeline import DataValidationPipeline
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
@@ -21,6 +22,8 @@ class Message(BaseModel):
 
 class Status(BaseModel):
     status: str
+    validators_status: str
+    private_data: str
 
 
 @app.post(
@@ -34,18 +37,32 @@ def validate_message(data: Message):
     - **válido:** quando a mensagem está correta.
     - **inválido:** quando a mensagem apresenta algum problema.
     """
-    if data.message.lower() == "ok":
-        return Status(status="válido")
-    return Status(status="inválido")
+
+    chain = DataValidationPipeline.build()
+    response = chain.handle(data.message.lower())
+
+    if response is not None:
+        print(response)
+        return Status(
+            status="Inválido",
+            validators_status=response.validators,
+            private_data=response.detected_value,
+        )
+    else:
+        return Status(
+            status="Válido",
+            validators_status="None",
+            private_data="None",
+        )
 
 
 @app.get("/", include_in_schema=False)
 def root():
-    """Redireciona para a documentação Swagger."""
+    """Redirects to the Swagger documentation."""
     return RedirectResponse(url="/docs")
 
 
 @app.exception_handler(404)
 async def not_found_handler(request: Request, exc):
-    """Redireciona rotas inexistentes para a documentação."""
+    """Redirects nonexistent routes to the documentation."""
     return RedirectResponse(url="/docs")
