@@ -7,7 +7,7 @@ run-prod:
 	docker compose -f docker-compose_prod.yml up --build -d
 
 test:
-	python -m pytest -v
+	docker compose -f docker-compose_dev.yml run --rm cgdf_api pytest app/test_main.py tests/test_validade.py
 
 style:
 	black .
