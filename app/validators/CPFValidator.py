@@ -1,11 +1,11 @@
 import re
+
 from validators.IValidator import IValidator
 from validators.ValidationResult import ValidationResult
 
+
 class CPFValidator(IValidator):
-    CPF_REGEX = re.compile(
-        r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b"
-    )
+    CPF_REGEX = re.compile(r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b")
 
     def __init__(self, next_handler=None):
         super().__init__(next_handler)

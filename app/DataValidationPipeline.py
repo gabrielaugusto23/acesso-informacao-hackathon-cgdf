@@ -1,4 +1,5 @@
 from validators.CPFValidator import CPFValidator
+from validators.NameValidator import NameValidator
 from validators.PhoneValidator import PhoneValidator
 from validators.RGValidator import RGValidator
 
@@ -6,7 +7,4 @@ from validators.RGValidator import RGValidator
 class DataValidationPipeline:
     @staticmethod
     def build():
-        phone = PhoneValidator()
-        rg = RGValidator(phone)
-        cpf = CPFValidator(rg)
-        return cpf
+        return PhoneValidator(RGValidator(CPFValidator(NameValidator(None))))
