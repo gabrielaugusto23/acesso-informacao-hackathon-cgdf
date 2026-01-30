@@ -20,7 +20,6 @@ def test_validate_message_valid():
 def test_validate_message_case_insensitive():
     response = client.post("/validate", json={"message": "OK"})
     assert response.status_code == 200
-    # Fix: Expected Válido instead of válido
     assert response.json() == {
         "status": "Válido",
         "validators_status": "None",
@@ -30,8 +29,6 @@ def test_validate_message_case_insensitive():
 def test_validate_message_invalid():
     response = client.post("/validate", json={"message": "anything else"})
     assert response.status_code == 200
-    # Fix: Your code currently returns "Válido" if no pattern matches. 
-    # If "anything else" should be considered valid (no PII), use this:
     assert response.json() == {
         "status": "Válido",
         "validators_status": "None",
@@ -50,7 +47,6 @@ def test_validate_with_cpf():
 def test_validate_clean_text():
     response = client.post("/validate", json={"message": "Gostaria de saber o orçamento da saúde."})
     assert response.status_code == 200
-    # Fix: Expected Válido and added the extra fields
     assert response.json() == {
         "status": "Válido",
         "validators_status": "None",
