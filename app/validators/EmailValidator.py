@@ -16,7 +16,7 @@ class EmailValidator(IValidator):
                 validators="EmailValidator",
             )
 
-        if self.__next_handler:
-            return self.__next_handler.handle(text)
+        if self._next_handler:
+            return self._next_handler.handle(text)
 
         return None
