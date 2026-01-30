@@ -10,9 +10,8 @@ test:
 	docker compose -f docker-compose_dev.yml run --rm cgdf_api pytest tests/
 
 style:
-	black .
-	ruff check . --fix
-
+	black app/
+	ruff check app/ --fix
 clear_dev:
 	docker compose -f docker-compose_dev.yml down -v
 	docker compose -f docker-compose_dev.yml down
