@@ -1,23 +1,22 @@
 import re
-
 from validators.IValidator import IValidator
 from validators.ValidationResult import ValidationResult
 
-
 class CPFValidator(IValidator):
+    CPF_REGEX = re.compile(
+        r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b"
+    )
 
     def __init__(self, next_handler=None):
         super().__init__(next_handler)
 
-    def handle(self, text: str) -> str:
+    def handle(self, text: str) -> ValidationResult:
 
-        cpf_pattern = r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b"
+        match = self.CPF_REGEX.search(text)
 
-        if re.search(cpf_pattern, text):
-            text = re.sub(cpf_pattern, "[CPF_REDACTED]", text)
-
+        if match:
             return ValidationResult(
-                detected_value="VALOR CPF",
+                detected_value=match.group(),
                 validators="CPFValidator",
             )
 
