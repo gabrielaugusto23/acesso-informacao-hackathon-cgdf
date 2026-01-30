@@ -1,4 +1,4 @@
-from DataValidationPipeline import DataValidationPipeline
+from app.DataValidationPipeline import DataValidationPipeline
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
