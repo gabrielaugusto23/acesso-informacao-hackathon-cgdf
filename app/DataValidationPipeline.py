@@ -8,6 +8,6 @@ from app.validators.RGValidator import RGValidator
 class DataValidationPipeline:
     @staticmethod
     def build():
-        return PhoneValidator(
-            RGValidator(CPFValidator(EmailValidator(NameValidator(None))))
+        return CPFValidator(
+            RGValidator(PhoneValidator(EmailValidator(NameValidator(None))))
         )
