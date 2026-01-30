@@ -1,7 +1,7 @@
 import re
 
-from validators.IValidator import IValidator
-from validators.ValidationResult import ValidationResult
+from app.validators.IValidator import IValidator
+from app.validators.ValidationResult import ValidationResult
 
 
 class EmailValidator(IValidator):

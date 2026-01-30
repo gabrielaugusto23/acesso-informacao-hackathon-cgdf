@@ -1,6 +1,7 @@
 import spacy
-from validators.IValidator import IValidator
-from validators.ValidationResult import ValidationResult
+
+from app.validators.IValidator import IValidator
+from app.validators.ValidationResult import ValidationResult
 
 nlp = spacy.load("pt_core_news_sm")
 
