@@ -1,23 +1,26 @@
 import re
-
 from validators.IValidator import IValidator
+from validators.ValidationResult import ValidationResult
 
 
 class PhoneValidator(IValidator):
-    PHONE_REGEX = re.compile(r"(\(?\d{2}\)?\s?)?(\d{4,5})[-\s]?(\d{4})")
+    PHONE_REGEX = re.compile(r"(\(?\d{2}\)?\s*)?(\d{4,5})(?:[-\s]*)?(\d{4})")
+
+    def __init__(self, next_handler=None):
+        super().__init__(next_handler)
 
     def handle(self, text: str):
         match = self.PHONE_REGEX.search(text)
+        print(text, "REGEX TELEFONE")
 
         if match:
-            return {
-                "tipo": "DADO_PESSOAL",
-                "campo": "telefone",
-                "valor_detectado": match.group(),
-                "validators": "PhoneValidator",
-            }
+            print("bateu")
+            return ValidationResult(
+                detected_value=match.group(),
+                validators="PhoneValidator",
+            )
 
-        if self.__next_handler:
-            return self.__next_handler.handle(text)
+        if self._next_handler is not None:
+            return self._next_handler.handle(text)
 
         return None
