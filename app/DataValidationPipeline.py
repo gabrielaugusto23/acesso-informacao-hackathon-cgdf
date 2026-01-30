@@ -1,8 +1,9 @@
 from validators.PhoneValidator import PhoneValidator
-
+from validators.RGValidator import RGValidator
 
 class DataValidationPipeline:
     @staticmethod
     def build():
         phone = PhoneValidator()
-        return phone
+        rg = RGValidator(phone)
+        return rg
