@@ -1,9 +1,9 @@
 import re
-from validators.IValidator import IValidator
+from app.validators.IValidator import IValidator
 
 class CPFValidator(IValidator):
     def handle(self, text: str) -> str:
-        # Matches XXX.XXX.XXX-XX or XXXXXXXXXXX
+
         cpf_pattern = r'\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b'
         
         if re.search(cpf_pattern, text):

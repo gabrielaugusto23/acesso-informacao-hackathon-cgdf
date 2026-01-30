@@ -1,4 +1,4 @@
-from validators.CPFValidator import CPFValidator
+from app.validators.CPFValidator import CPFValidator
 
 class DataValidationPipeline:
     @staticmethod
