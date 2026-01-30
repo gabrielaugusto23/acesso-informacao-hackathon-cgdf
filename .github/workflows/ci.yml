@@ -17,7 +17,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Passo crucial: Configurar Python no corredor para Linting rápido
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -26,42 +25,28 @@ jobs:
       - name: Install Linting Tools
         run: pip install black ruff
 
-      # Executa o Black antes de subir o Docker para falhar rápido se houver erro de estilo
       - name: Run style check (Black)
-        run: |
-          echo "Running Black for code style check..."
-          black --check app/
+        run: black --check app/
 
       - name: Run linter (Ruff)
-        run: |
-          echo "🔍 Running Ruff linter..."
-          ruff check app/
+        run: ruff check app/
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Build and start containers
         run: |
-          echo "Starting containers in detached mode..."
-          # Usando o arquivo de prod conforme sua configuração
           docker compose -f docker-compose_prod.yml up --build -d
-          docker compose -f docker-compose_prod.yml ps
 
       - name: Wait for containers to be healthy
-        run: |
-          echo "Waiting for containers to become healthy..."
-          # Aumentado para 15s para garantir que o Uvicorn subiu totalmente
-          sleep 15
-          docker compose -f docker-compose_prod.yml ps
+        run: sleep 15
 
       - name: Run unit tests (pytest)
         run: |
           echo "Running unit tests with pytest..."
-          # Point pytest to the specific directories where your tests are located
+          # Since WORKDIR is /app, we point to the files relative to that
           docker compose -f docker-compose_prod.yml run --rm cgdf_api python -m pytest app/test_main.py tests/test_validade.py -v --disable-warnings
 
       - name: Shut down containers
         if: always()
-        run: |
-          echo "Shutting down containers..."
-          docker compose -f docker-compose_prod.yml down -v
+        run: docker compose -f docker-compose_prod.yml down -v
