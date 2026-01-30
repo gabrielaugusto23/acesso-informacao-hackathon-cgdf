@@ -1,24 +1,23 @@
 import re
-
-from validators.IValidator import IValidator
-from validators.ValidationResult import ValidationResult
-
+from validate_docbr import CPF
+from app.validators.IValidator import IValidator
+from app.validators.ValidationResult import ValidationResult
 
 class CPFValidator(IValidator):
-    CPF_REGEX = re.compile(r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b")
-
     def __init__(self, next_handler=None):
         super().__init__(next_handler)
+        self.cpf_validator = CPF()
 
-    def handle(self, text: str) -> ValidationResult:
+    def handle(self, text: str):
+        cpf_pattern = r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b"
+        matches = re.findall(cpf_pattern, text)
 
-        match = self.CPF_REGEX.search(text)
-
-        if match:
-            return ValidationResult(
-                detected_value=match.group(),
-                validators="CPFValidator",
-            )
+        for match in matches:
+            if self.cpf_validator.validate(match):
+                return ValidationResult(
+                    detected_value=f"CPF: {match}",
+                    validators="CPFValidator",
+                )
 
         if self._next_handler is not None:
             return self._next_handler.handle(text)

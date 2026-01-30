@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile_dev
     ports:
-      - "${APP_PORT}:${APP_PORT}"
+      - "${APP_PORT:-55555}:${APP_PORT:-55555}"
     environment:
-      - APP_PORT=${APP_PORT}
+      - APP_PORT=${APP_PORT:-55555}
     volumes:
-      - ./app:/app
+      - .:/app  
