@@ -1,6 +1,6 @@
-from validators.CPFValidator import CPFValidator
-from validators.PhoneValidator import PhoneValidator
-from validators.RGValidator import RGValidator
+from app.validators.CPFValidator import CPFValidator
+from app.validators.PhoneValidator import PhoneValidator
+from app.validators.RGValidator import RGValidator
 
 
 class DataValidationPipeline:
