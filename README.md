@@ -32,19 +32,59 @@ Projeto desenvolvido para o **1º Hackathon em Controle Social - Desafio Partici
 
 ---
 
+## Swagger
+
+![img.png](img.png)
+
+> Para testar a API, acesse o Swagger e informe a mensagem no formato JSON.
+Em seguida, clique em “Execute” para visualizar o resultado da validação.
+>
+> A API também pode ser consumida por outras ferramentas de sua preferência, como Postman ou Insomnia.
+
+---
+
 ## Estrutura do Projeto
 
 `````txt
 .
-├── app/                     # Código principal da aplicação FastAPI
-│   └── main.py
-├── tests/                   # Testes unitários (pytest)
-├── infra                    # Dockerfiles de produção e desenvolvimento
-├── docker-compose_dev.yml   # Configuração do ambiente de desenvolvimento
-├── docker-compose_prod.yml  # Configuração do ambiente de produção
-├── requirements.txt         # Dependências e ferramentas
-├── pyproject.toml           # Configuração do Black e Ruff
-└── .github/workflows/ci.yml # Pipeline de integração contínua
+├── .github/                       # Configurações de CI/CD
+│   └── workflows/
+│       └── ci.yml                 # Pipeline do GitHub Actions
+│
+├── app/                           # Código principal da aplicação
+│   ├── main.py                    # Entry point da FastAPI
+│   ├── validators/                # Validadores de dados pessoais
+│   │   ├── IValidator.py          # Interface base (Chain of Responsibility)
+│   │   ├── ValidationResult.py    # Estrutura de retorno dos validadores
+│   │   ├── NameValidator.py       # Detecção de nomes (spaCy)
+│   │   ├── CPFValidator.py        # Detecção de CPF
+│   │   ├── RGValidator.py         # Detecção de RG
+│   │   ├── PhoneValidator.py      # Detecção de telefone
+│   │   └── EmailValidator.py      # Detecção de e-mail
+│   └── DataValidationPipeline.py  # Pipeline encadeado de validação
+│
+├── tests/                         # Testes automatizados (pytest)
+│   ├── test_CPFValidator.py
+│   ├── test_RGValidator.py
+│   ├── test_PhoneValidator.py
+│   ├── test_EmailValidator.py
+│   ├── test_NameValidator.py
+│   └── test_validade.py           # Testes de textos válidos (sem dados pessoais)
+│
+├── .env                           # Variáveis de ambiente (não versionado)
+├── .env.example                   # Exemplo de variáveis de ambiente
+│
+├── docker-compose_dev.yml         # Docker Compose (desenvolvimento)
+├── docker-compose_prod.yml        # Docker Compose (produção)
+│
+├── Dockerfile_dev                 # Dockerfile para ambiente de desenvolvimento
+├── Dockerfile_prod                # Dockerfile para ambiente de produção
+│
+├── Makefile                       # Atalhos para comandos comuns
+├── requirements.txt               # Dependências do projeto
+├── pyproject.toml                 # Configuração do Black, Ruff e Pytest
+├── README.md                      # Documentação do projeto
+└── .gitignore                     # Arquivos ignorados pelo Git
 `````
 ---
 
