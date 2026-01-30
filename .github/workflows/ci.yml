@@ -44,8 +44,8 @@ jobs:
       - name: Run unit tests (pytest)
         run: |
           echo "Running unit tests with pytest..."
-          # Running from the root /app, finding both test files
-          docker compose -f docker-compose_prod.yml run --rm cgdf_api pytest app/test_main.py tests/test_validade.py -v
+          # Point pytest to the 'tests/' directory where your files actually are
+          docker compose -f docker-compose_prod.yml run --rm cgdf_api pytest tests/ -v
 
       - name: Shut down containers
         if: always()
