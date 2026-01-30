@@ -6,8 +6,6 @@ client = TestClient(app)
 
 
 def test_validate_with_cpf():
-    """Tests if a message containing a CPF is flagged as invalid (PII detected)."""
-
     payloads = [
         {"message": "O solicitante do processo é o CPF 123.456.789-00."},
         {"message": "Dados do usuário: 98765432100"},
@@ -15,13 +13,10 @@ def test_validate_with_cpf():
     for json_data in payloads:
         response = client.post("/validate", json=json_data)
         assert response.status_code == 200
-        assert response.json() == {"status": "inválido"}
-
+        assert response.json()["status"] == "Inválido"
+        assert response.json()["validators_status"] == "CPFValidator"
 
 def test_validate_clean_text():
-    """Tests if a message with no PII is flagged as valid."""
-    response = client.post(
-        "/validate", json={"message": "Quais são os gastos com educação em 2025?"}
-    )
+    response = client.post("/validate", json={"message": "Quais são os gastos com educação?"})
     assert response.status_code == 200
-    assert response.json() == {"status": "válido"}
+    assert response.json()["status"] == "Válido"
